@@ -9,7 +9,7 @@ function Chart(){
    
     
    
-    return(
+    return( 
         <div className="">
        
         </div>
