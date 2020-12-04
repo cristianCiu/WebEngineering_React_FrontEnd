@@ -1,29 +1,29 @@
 
 import Header from './Header';
-import Testbutton from './test';
-import Chart from './Chart';
+// import Testclass from './test';
+import Chart from './containers/Chart';
 import './App.css';
-import React,{useState} from "react";
+import React, { useState } from "react";
 
 function App() {
   const [isDarkMode, setDarkTheme] = useState(false);
 
-  const switchToDarkMode = () => {
-setDarkTheme(isDarkMode ?   false:true);
+  const toggleDarkMode = () => {
+    setDarkTheme(isDarkMode ? false : true);
   }
 
   return (
-    <div className="App">
-      <Header/>
-      <button onClick={switchToDarkMode}>Toggle Dark Mode</button>
-  <h1 className={isDarkMode ? 'Dark-Theme' : ''}>My Mode: {isDarkMode}</h1>
-     
-     <Testbutton />
-     <Chart/>
+    <div className={isDarkMode ? 'Dark-Theme App' : 'App'}>
+      <Header />
+
+      <button onClick={toggleDarkMode}>Toggle Dark Mode</button>
+      <p className={isDarkMode ? 'Dark-Theme' : ''}>My Mode {isDarkMode}</p>
+
     </div>
-    
+
   );
 }
 
 
 export default App;
+

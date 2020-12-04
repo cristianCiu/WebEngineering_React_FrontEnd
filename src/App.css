@@ -36,17 +36,17 @@
     transform: rotate(360deg);
   }
 }
-.myHeaderstyle{
+.myHeaderstyle {
   background-color: #447dee;
   text-decoration-color: rgb(102, 3, 109);
 }
 
-.teststyle{
+.teststyle {
   background-color: #44eebb;
   text-decoration-color: rgb(109, 37, 3);
 }
 
-.Dark-Theme{
+.Dark-Theme {
   background-color: #282c34;
   color: #e6e9f0;
 }
