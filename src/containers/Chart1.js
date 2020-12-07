@@ -5,7 +5,7 @@ import '../App.css';
 //import graphql2chartjs from 'graphql2chartjs';
 //import {Bar} from 'react-chartjs-2';
 
-function Chart() {
+function Chart1() {
 
     return (
         <div className="">
@@ -14,4 +14,4 @@ function Chart() {
     );
 }
 
-export default Chart;
+export default Chart1;

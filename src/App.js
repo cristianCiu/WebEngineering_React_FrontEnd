@@ -1,7 +1,7 @@
 
 import Header from './Header';
 // import Testclass from './test';
-import Chart from './containers/Chart';
+
 import './App.css';
 import React, { useState } from "react";
 

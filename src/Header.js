@@ -25,12 +25,12 @@ function Header() {
             <NavDropdown.Divider />
             <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
           </NavDropdown> */}
-            <LinkContainer to="/Chart">
+            <LinkContainer to="/chart1">
               <Nav.Link >Chart 1</Nav.Link>
             </LinkContainer>
             {/* <Nav.Link href="/signup">Chart 2</Nav.Link> */}
-            <LinkContainer to="/signup">
-              <Nav.Link href="/signup">About</Nav.Link>
+            <LinkContainer to="/about">
+              <Nav.Link >About</Nav.Link>
             </LinkContainer>
           </Nav>
           <Form inline>
