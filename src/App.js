@@ -1,7 +1,5 @@
 
 import Header from './Header';
-// import Testclass from './test';
-
 import './App.css';
 import React, { useState } from "react";
 
