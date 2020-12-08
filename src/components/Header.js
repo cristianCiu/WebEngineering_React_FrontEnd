@@ -2,9 +2,9 @@ import { Navbar, Nav, NavDropdown, Form, Button, FormControl } from 'react-boots
 import React from 'react';
 
 import { LinkContainer } from "react-router-bootstrap";
-import './App.css';
+import '../styles/App.css';
 
-import Routes from "./Routes";
+import Routes from "../Routes";
 function Header() {
   return (
     <div>

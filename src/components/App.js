@@ -1,8 +1,7 @@
-
 import Header from './Header';
-import './App.css';
+import '../styles/App.css';
 import React, { useState } from "react";
-
+import { Button } from 'react-bootstrap';
 function App() {
   const [isDarkMode, setDarkTheme] = useState(false);
 
@@ -14,14 +13,13 @@ function App() {
     <div className={isDarkMode ? 'Dark-Theme App' : 'App'}>
       <Header />
 
-      <button onClick={toggleDarkMode}>Toggle Dark Mode</button>
-      <p className={isDarkMode ? 'Dark-Theme' : ''}>My Mode {isDarkMode}</p>
+      <Button variant="outline-dark" onClick={toggleDarkMode}>Toggle Dark Mode</Button>
+
 
     </div>
 
   );
 }
-
 
 export default App;
 
