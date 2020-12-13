@@ -3,13 +3,13 @@ import '../styles/App.css';
 import { useQuery, gql } from '@apollo/client';
 import NotFound from './NotFound';
 import graphql2chartjs from 'graphql2chartjs';
-import { Line } from 'react-chartjs-2'
+import { Line, TimeSeries } from 'react-chartjs-2'
 // create query
 const FEED_QUERY = gql`
   {
     Country {
-        label:name
-        data:population
+        data_x:name
+        data_y:population
     }
   }
 `;
@@ -25,25 +25,25 @@ function Chart1() {
 
     const g2c = new graphql2chartjs(data, 'line');
 
-    const state = {
-        labels: ['January', 'February', 'March',
-            'April', 'May'],
-        datasets: [
-            {
-                label: 'Rainfall',
-                fill: false,
-                lineTension: 0.5,
-                backgroundColor: 'rgba(75,192,192,1)',
-                borderColor: 'rgba(0,0,0,1)',
-                borderWidth: 2,
-                data: [65, 59, 80, 81, 56]
-            }
-        ]
-    }
+    // const state = {
+    //     labels: ['January', 'February', 'March',
+    //         'April', 'May'],
+    //     datasets: [
+    //         {
+    //             label: 'Rainfall',
+    //             fill: false,
+    //             lineTension: 0.5,
+    //             backgroundColor: 'rgba(75,192,192,1)',
+    //             borderColor: 'rgba(0,0,0,1)',
+    //             borderWidth: 2,
+    //             data: [65, 59, 80, 81, 56]
+    //         }
+    //     ]
+    // }
 
     return (
         <div>
-            <Line
+            <TimeSeries
                 data={g2c.data}
                 options={{
                     title: {
