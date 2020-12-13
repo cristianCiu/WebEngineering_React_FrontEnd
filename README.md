@@ -14,3 +14,9 @@
 ## Notes:
 
 Important dependency lock: **"core-js": "^2.6.5"**. Else, there is the error _"Module not found: Error: Can't resolve 'core-js/modules/web.dom.iterable'"_
+
+## Guide
+
+> npm install
+
+> npm start
