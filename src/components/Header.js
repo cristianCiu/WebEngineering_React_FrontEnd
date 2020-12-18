@@ -28,15 +28,20 @@ function Header() {
             <LinkContainer to="/chart1">
               <Nav.Link >Chart 1</Nav.Link>
             </LinkContainer>
-            {/* <Nav.Link href="/signup">Chart 2</Nav.Link> */}
+            <LinkContainer to="/chart2">
+              <Nav.Link >Chart 2</Nav.Link>
+            </LinkContainer>
+            <LinkContainer to="/chart3">
+              <Nav.Link >Chart 3</Nav.Link>
+            </LinkContainer>
             <LinkContainer to="/about">
               <Nav.Link >About</Nav.Link>
             </LinkContainer>
           </Nav>
-          <Form inline>
+          {/* <Form inline>
             <FormControl type="text" placeholder="Search" className="mr-sm-2" />
             <Button variant="outline-success">Search</Button>
-          </Form>
+          </Form> */}
         </Navbar.Collapse>
       </Navbar>
       <Routes />

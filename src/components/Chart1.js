@@ -3,13 +3,13 @@ import '../styles/App.css';
 import { useQuery, gql } from '@apollo/client';
 import NotFound from './NotFound';
 import graphql2chartjs from 'graphql2chartjs';
-import { Line, TimeSeries } from 'react-chartjs-2'
+import { Line } from 'react-chartjs-2'
 // create query
 const FEED_QUERY = gql`
   {
     Country {
-        data_x:name
-        data_y:population
+        label:name
+        data:population
     }
   }
 `;
@@ -23,7 +23,7 @@ function Chart1() {
     console.log(data.Country);
     if (error) return <p>{error}</p>//<NotFound />;
 
-    const g2c = new graphql2chartjs(data, 'line');
+    const graphql2chart = new graphql2chartjs(data, 'line');
 
     // const state = {
     //     labels: ['January', 'February', 'March',
@@ -43,8 +43,9 @@ function Chart1() {
 
     return (
         <div>
-            <TimeSeries
-                data={g2c.data}
+            <h1>This chart is displayed with Chart JS.</h1>
+            <Line
+                data={graphql2chart.data}
                 options={{
                     title: {
                         display: true,

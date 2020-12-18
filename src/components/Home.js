@@ -1,7 +1,5 @@
 import React from "react";
 // import "./Home.css";
-import Plot from 'react-plotly.js';
-
 
 export default function Home() {
     return (
@@ -9,19 +7,7 @@ export default function Home() {
             <div className="lander">
                 <h1>Welcome</h1>
                 <p className="text-muted">This is our WebEngineering Project. Please choose a Chart in the menu.</p>
-                <Plot
-                    data={[
-                        {
-                            x: [1, 2, 3],
-                            y: [2, 6, 3],
-                            type: 'scatter',
-                            mode: 'lines+markers',
-                            marker: { color: 'red' },
-                        },
-                        { type: 'bar', x: [1, 2, 3], y: [2, 5, 3] },
-                    ]}
-                    layout={{ width: 320, height: 240, title: 'A Fancy Plot' }}
-                />
+
             </div>
         </div>
     );
