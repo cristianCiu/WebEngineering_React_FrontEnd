@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles/App.css';
 import { useQuery, gql } from '@apollo/client';
-import Plot from 'react-plotly.js';
+import Plotly from 'react-plotly.js';
 import Slider from './Slider';
 
 //import NotFound from './NotFound';
@@ -32,10 +32,14 @@ function Chart3() {
     if (error) return <p>error</p>//<NotFound />;
     console.log(data);
 
-    var dataBezirksname = [], dataTime = [], dataAnzahlFaelle = [];//, dataPopulationDensity = [], dataGini = [], dataCurrency = [];
+    var dataBezirksname = [], dataDropdown = [], dataTime = [], dataTimestamp = [], dataAnzahlFaelle = [];//, dataPopulationDensity = [], dataGini = [], dataCurrency = [];
+    var myList;
     prepareData();
+    fillDropdown();
+
     function prepareData(bezirk = 'Wien') {
-        dataBezirksname = []; dataTime = [];
+        dataBezirksname = []; dataTime = []; dataTimestamp = []; dataAnzahlFaelle = [];
+
         for (var i in data.InfectionData) {
             if (data.InfectionData === undefined) {
                 console.warn("Data is null");
@@ -50,25 +54,51 @@ function Chart3() {
                     d.toLocaleDateString("en-US");
 
                     dataTime.push(d);
+                    dataTimestamp.push(data.InfectionData[i].Time);
                 }
             }
         }
     }
     console.log(dataBezirksname);
     console.log(dataTime);
+    console.log(dataTimestamp);
     console.log(dataAnzahlFaelle);
 
-    var myList = dataBezirksname.length > 0
-        && dataBezirksname.map((item, i) => {
-            return (
-                <option key={i} value={item}>{item}</option>
-            )
-        }, this);
+    function fillDropdown() {
+        let tempList = [];
+        for (var i in data.InfectionData) {
+            tempList.push(data.InfectionData[i].BezirksInformationen.Bezirksname);
+        }
+        dataDropdown = tempList.filter(onlyUnique);
+
+        myList = dataDropdown.length > 0
+            && dataDropdown.map((item, i) => {
+                return (
+                    <option key={i} value={item}>{item}</option>
+                )
+            }, this);
+    }
+    function onlyUnique(value, index, self) {
+        return self.indexOf(value) === index;
+    }
 
 
 
     function handlerCheckBoxSelected(e) {
         prepareData(e.target.value);
+        var newdata =
+            [
+                {
+                    labels: dataBezirksname,
+                    x: [1, 2],
+                    y: ["a", "b"],
+                    type: 'line',
+                    mode: 'lines+markers',
+                    marker: { color: 'red' },
+                    name: "NEW"
+                }];
+        console.log(dataBezirksname);
+        // Plotly.newPlot('bla', newdata);
     }
     return (
         <div>
@@ -82,24 +112,24 @@ function Chart3() {
                 onUpdate={(figure) => this.setState(figure)}
             /> */}
 
-            <Plot
+            <Plotly
                 data={
                     [
                         {
                             labels: dataBezirksname,
-                            x: dataTime,
+                            x: dataTimestamp,
                             y: dataAnzahlFaelle,
                             type: 'line',
                             mode: 'lines+markers',
                             marker: { color: 'red' },
-                            name: "Faelle"
+                            name: "Fälle Timestamp"
                         },
                         {
                             type: 'bar',
                             x: dataTime,
                             y: dataAnzahlFaelle,
                             marker: { color: 'blue' },
-                            name: "Population Density"
+                            name: "Fälle Datumsformat"
                         },
                         // {
                         //     type: 'bar',
