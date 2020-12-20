@@ -5,22 +5,31 @@ import NotFound from './NotFound';
 import graphql2chartjs from 'graphql2chartjs';
 import { Line } from 'react-chartjs-2'
 // create query
+// const FEED_QUERY = gql`
+//   {
+//     Country {
+//         label:name
+//         data:population
+//     }
+//   }
+// `;
 const FEED_QUERY = gql`
-  {
-    Country {
-        label:name
-        data:population
-    }
+{
+    InfectionData {
+        BezirksInformationen {
+          Bezirksname
+        }
+        Time
   }
+}
 `;
-
 
 function Chart1() {
     //run query
     const { data, error, loading } = useQuery(FEED_QUERY);
 
     if (loading) return <div>Loading...</div>;
-    console.log(data.Country);
+    console.log(data);
     if (error) return <p>{error}</p>//<NotFound />;
 
     const graphql2chart = new graphql2chartjs(data, 'line');

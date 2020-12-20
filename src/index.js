@@ -13,7 +13,8 @@ import {
 } from '@apollo/client';
 
 const httpLink = createHttpLink({
-  uri: 'https://countries-274616.ew.r.appspot.com/'
+  // uri: 'https://countries-274616.ew.r.appspot.com/'
+  uri: 'https://us-central1-coronastatistiks.cloudfunctions.net/graphql'
 });
 
 const client = new ApolloClient({
