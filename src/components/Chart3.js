@@ -1,20 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../styles/App.css';
 import { useQuery, gql } from '@apollo/client';
 import Plotly from 'react-plotly.js';
-import Slider from './Slider';
 
-//import NotFound from './NotFound';
-//import graphql2chartjs from 'graphql2chartjs';
-// import { Line } from 'react-chartjs-2'
-
+import { Button } from 'react-bootstrap';
 // create query
 
 const FEED_QUERY = gql`
   {
     InfectionData {
         BezirksInformationen {
+          AnzEinwohner
           Bezirksname
+          AusgangsInformationen
+          {
+              AnzahlGeheiltTaeglich
+              AnzahlTotTaeglich
+            }
           FallInformationen
           {AnzahlFaelle}
         }
@@ -23,48 +25,68 @@ const FEED_QUERY = gql`
 `;
 
 function Chart3() {
+
+    const [dataTimestamp, setdataTimestamp] = useState([]);
+    const [dataAnzahlEinwohner, setDataAnzahlEinwohner] = useState([]);
+    const [dataAnzahlFaelle, setdataAnzahlFaelle] = useState([]);
+    const [dataAnzahlGeheiltTaeglich, setDataAnzahlGeheiltTaeglich] = useState([]);
+    const [dataAnzahlTotTaeglich, setDataAnzahlTotTaeglich] = useState([]);
+    const [per100k, setPer100k] = useState([]);
+    const [dropdownSelected, setDropdownSelected] = useState([]);
+
     //run query
     const { data, error, loading } = useQuery(FEED_QUERY);
-    // const [layout, figure, frames, config] = useState();
-    // console.log(data);
+
+
     if (loading) return <div>Loading...</div>;
-
     if (error) return <p>error</p>//<NotFound />;
-    console.log(data);
+    // console.log(data);
 
-    var dataBezirksname = [], dataDropdown = [], dataTime = [], dataTimestamp = [], dataAnzahlFaelle = [];//, dataPopulationDensity = [], dataGini = [], dataCurrency = [];
-    var myList;
-    prepareData();
+    var dataDropdown = [], myList;
+
     fillDropdown();
 
     function prepareData(bezirk = 'Wien') {
-        dataBezirksname = []; dataTime = []; dataTimestamp = []; dataAnzahlFaelle = [];
+
+        console.log("data prepared");
+        // dataBezirksname = []; 
+        let tempDataTimestamp = [];
+        let tempDataAnzahlFaelle = [];
+        let tempDataAnzahlGeheiltTaeglich = [];
+        let tempDataAnzahlTotTaeglich = [];
+
+
 
         for (var i in data.InfectionData) {
             if (data.InfectionData === undefined) {
                 console.warn("Data is null");
             } else {
                 if (data.InfectionData[i].BezirksInformationen.Bezirksname === bezirk) {
-                    dataBezirksname.push(data.InfectionData[i].BezirksInformationen.Bezirksname);
-                    // dataTime.push(data.InfectionData[i].Time);
-                    dataAnzahlFaelle.push(data.InfectionData[i].BezirksInformationen.FallInformationen.AnzahlFaelle);
+                    setDataAnzahlEinwohner(data.InfectionData[i].BezirksInformationen.AnzEinwohner)
 
-                    var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
-                    d.setUTCSeconds(data.InfectionData[i].Time);
-                    d.toLocaleDateString("en-US");
+                    if (per100k) {
+                        tempDataAnzahlFaelle.push(((data.InfectionData[i].BezirksInformationen.FallInformationen.AnzahlFaelle) / dataAnzahlEinwohner) * 100000);
+                        tempDataAnzahlGeheiltTaeglich.push(((data.InfectionData[i].BezirksInformationen.AusgangsInformationen.AnzahlGeheiltTaeglich) / dataAnzahlEinwohner) * 100000);
+                        tempDataAnzahlTotTaeglich.push(((data.InfectionData[i].BezirksInformationen.AusgangsInformationen.AnzahlTotTaeglich) / dataAnzahlEinwohner) * 100000);
 
-                    dataTime.push(d);
-                    dataTimestamp.push(data.InfectionData[i].Time);
+                    } else {
+                        tempDataAnzahlFaelle.push((data.InfectionData[i].BezirksInformationen.FallInformationen.AnzahlFaelle));
+                        tempDataAnzahlGeheiltTaeglich.push((data.InfectionData[i].BezirksInformationen.AusgangsInformationen.AnzahlGeheiltTaeglich));
+                        tempDataAnzahlTotTaeglich.push((data.InfectionData[i].BezirksInformationen.AusgangsInformationen.AnzahlTotTaeglich));
+                    }
+
+                    tempDataTimestamp.push(new Date(parseInt(data.InfectionData[i].Time)).toDateString());
                 }
             }
         }
+        setdataAnzahlFaelle(tempDataAnzahlFaelle);
+        setdataTimestamp(tempDataTimestamp);
+        setDataAnzahlGeheiltTaeglich(tempDataAnzahlGeheiltTaeglich);
+        setDataAnzahlTotTaeglich(tempDataAnzahlTotTaeglich);
     }
-    console.log(dataBezirksname);
-    console.log(dataTime);
-    console.log(dataTimestamp);
-    console.log(dataAnzahlFaelle);
 
     function fillDropdown() {
+        console.log("Dropdown filled");
         let tempList = [];
         for (var i in data.InfectionData) {
             tempList.push(data.InfectionData[i].BezirksInformationen.Bezirksname);
@@ -82,78 +104,65 @@ function Chart3() {
         return self.indexOf(value) === index;
     }
 
-
-
-    function handlerCheckBoxSelected(e) {
+    function handlerDropdownSelected(e) {
         prepareData(e.target.value);
-        var newdata =
-            [
-                {
-                    labels: dataBezirksname,
-                    x: [1, 2],
-                    y: ["a", "b"],
-                    type: 'line',
-                    mode: 'lines+markers',
-                    marker: { color: 'red' },
-                    name: "NEW"
-                }];
-        console.log(dataBezirksname);
-        // Plotly.newPlot('bla', newdata);
+        setDropdownSelected(e.target.value);
     }
+
+    function per100kButton() {
+        setPer100k(per100k ? false : true);
+        prepareData(dropdownSelected);
+    }
+
     return (
         <div>
-            <h1>This chart is displayed with Plotly.</h1>
-            {/* <Plot
-                data={this.state.data}
-                // layout={this.state.layout}
-                frames={this.state.frames}
-                config={this.state.config}
-                onInitialized={(figure) => this.setState(figure)}
-                onUpdate={(figure) => this.setState(figure)}
-            /> */}
+            <h1>Diagramm nach Bezirk</h1>
+            <div>
+                <select onChange={handlerDropdownSelected} onSelect={handlerDropdownSelected} style={{ width: "300px" }} >
+                    {myList}
 
+                </select></div>
+            <h2>{dropdownSelected}</h2>
+            <h2>{dataAnzahlEinwohner} Einwohner</h2>
             <Plotly
                 data={
                     [
                         {
-                            labels: dataBezirksname,
+                            // labels: dataBezirksname,
                             x: dataTimestamp,
                             y: dataAnzahlFaelle,
                             type: 'line',
                             mode: 'lines+markers',
-                            marker: { color: 'red' },
-                            name: "Fälle Timestamp"
+                            marker: { color: 'blue' },
+                            name: "Anzahl Fälle"
                         },
                         {
                             type: 'bar',
-                            x: dataTime,
-                            y: dataAnzahlFaelle,
-                            marker: { color: 'blue' },
-                            name: "Fälle Datumsformat"
+                            x: dataTimestamp,
+                            y: dataAnzahlGeheiltTaeglich,
+                            marker: { color: 'green' },
+                            name: "Genesene Personen"
                         },
-                        // {
-                        //     type: 'bar',
-                        //     x: dataNames,
-                        //     y: dataGini,
-                        //     marker: { color: 'green' },
-                        //     name: "Gini"
-                        // },
-                        // {
-                        //     type: 'bar',
-                        //     x: dataNames,
-                        //     y: dataCurrency,
-                        //     marker: { color: 'black' },
-                        //     name: "Currency"
-                        // }
+                        {
+                            type: 'bar',
+                            x: dataTimestamp,
+                            y: dataAnzahlTotTaeglich,
+                            marker: { color: 'red' },
+                            name: "Tote Personen"
+                        }
                     ]
                 }
-                layout={{ width: 1200, height: 600, title: 'A Fancy Plot' }}
-            /><div>
-                <select onChange={handlerCheckBoxSelected} onSelect={handlerCheckBoxSelected} style={{ width: "300px" }} >
-                    {myList}
+                layout={
+                    {
 
-                </select></div>
-            <Slider min={[0]} max={dataBezirksname[dataBezirksname.length - 1]} ticks={dataBezirksname} />
+                        width: 1200,
+                        height: 600,
+                        title: 'Bitte wählen Sie den Bezirk aus der Dropdown Liste aus.',
+                        xaxis: {
+                            rangeslider: {}
+                        }
+                    }}
+            /> <Button variant="outline-dark" onClick={per100kButton}>per 100k</Button>
         </div>
     );
 }

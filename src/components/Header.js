@@ -17,7 +17,6 @@ function Header() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav activeKey={window.location.pathname} className="mr-auto">
 
-
             {/* <NavDropdown title="Charts" id="basic-nav-dropdown">
             <NavDropdown.Item href="#action/3.1">Chart 1</NavDropdown.Item>
             <NavDropdown.Item href="#action/3.2">Chart 2</NavDropdown.Item>
@@ -25,12 +24,12 @@ function Header() {
             <NavDropdown.Divider />
             <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
           </NavDropdown> */}
-            <LinkContainer to="/chart1">
+            {/* <LinkContainer to="/chart1">
               <Nav.Link >Chart 1</Nav.Link>
             </LinkContainer>
             <LinkContainer to="/chart2">
               <Nav.Link >Chart 2</Nav.Link>
-            </LinkContainer>
+            </LinkContainer> */}
             <LinkContainer to="/chart3">
               <Nav.Link >Chart 3</Nav.Link>
             </LinkContainer>

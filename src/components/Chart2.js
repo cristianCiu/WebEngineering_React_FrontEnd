@@ -2,7 +2,7 @@ import React from 'react';
 import '../styles/App.css';
 import { useQuery, gql } from '@apollo/client';
 import Plot from 'react-plotly.js';
-import Slider from './Slider';
+// import Slider from './Slider';
 //import NotFound from './NotFound';
 //import graphql2chartjs from 'graphql2chartjs';
 // import { Line } from 'react-chartjs-2'
@@ -110,7 +110,7 @@ function Chart2() {
                 }
                 layout={{ width: 1200, height: 600, title: 'A Fancy Plot' }}
             />
-            <Slider min={dataNames[0]} max={dataNames[dataNames.length - 1]} ticks={dataNames} />
+
         </div>
     );
 }
