@@ -1,16 +1,16 @@
 import { Navbar, Nav, NavDropdown, Form, Button, FormControl } from 'react-bootstrap';
-import React from 'react';
-
+import React, { useState } from 'react';
 import { LinkContainer } from "react-router-bootstrap";
 import '../styles/App.css';
-
 import Routes from "../Routes";
+
 function Header() {
+
   return (
     <div>
-      <Navbar bg="light" expand="lg">
+      <Navbar bg="dark" variant="dark" expand="lg">
         <LinkContainer to="/">
-          <Navbar.Brand >COVID-Board
+          <Navbar.Brand ><img src="coronavirus.svg" width="40" height="40" alt="" /> COVID-Board
           </Navbar.Brand>
         </LinkContainer>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
