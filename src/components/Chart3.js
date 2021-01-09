@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import '../styles/App.css';
 import { useQuery, gql } from '@apollo/client';
 import Plotly from 'react-plotly.js';
-
 import { Button } from 'react-bootstrap';
-// create query
 
+// create query
 const FEED_QUERY = gql`
   {
     InfectionData {
@@ -37,10 +36,8 @@ function Chart3() {
     //run query
     const { data, error, loading } = useQuery(FEED_QUERY);
 
-
     if (loading) return <div>Loading...</div>;
-    if (error) return <p>error</p>//<NotFound />;
-    // console.log(data);
+    if (error) return <p>error</p>  // or show component <NotFound />;
 
     var dataDropdown = [], myList;
 
@@ -49,13 +46,10 @@ function Chart3() {
     function prepareData(bezirk = 'Wien') {
 
         console.log("data prepared");
-        // dataBezirksname = []; 
         let tempDataTimestamp = [];
         let tempDataAnzahlFaelle = [];
         let tempDataAnzahlGeheiltTaeglich = [];
         let tempDataAnzahlTotTaeglich = [];
-
-
 
         for (var i in data.InfectionData) {
             if (data.InfectionData === undefined) {
@@ -74,7 +68,6 @@ function Chart3() {
                         tempDataAnzahlGeheiltTaeglich.push((data.InfectionData[i].BezirksInformationen.AusgangsInformationen.AnzahlGeheiltTaeglich));
                         tempDataAnzahlTotTaeglich.push((data.InfectionData[i].BezirksInformationen.AusgangsInformationen.AnzahlTotTaeglich));
                     }
-
                     tempDataTimestamp.push(new Date(parseInt(data.InfectionData[i].Time)).toDateString());
                 }
             }
@@ -91,7 +84,7 @@ function Chart3() {
         for (var i in data.InfectionData) {
             tempList.push(data.InfectionData[i].BezirksInformationen.Bezirksname);
         }
-        dataDropdown = tempList.filter(onlyUnique);
+        dataDropdown = tempList.filter(onlyUniqueValues);
 
         myList = dataDropdown.length > 0
             && dataDropdown.map((item, i) => {
@@ -100,7 +93,7 @@ function Chart3() {
                 )
             }, this);
     }
-    function onlyUnique(value, index, self) {
+    function onlyUniqueValues(value, index, self) {
         return self.indexOf(value) === index;
     }
 
@@ -128,7 +121,6 @@ function Chart3() {
                 data={
                     [
                         {
-                            // labels: dataBezirksname,
                             x: dataTimestamp,
                             y: dataAnzahlFaelle,
                             type: 'line',
@@ -154,7 +146,6 @@ function Chart3() {
                 }
                 layout={
                     {
-
                         width: 1200,
                         height: 600,
                         title: 'Bitte wählen Sie den Bezirk aus der Dropdown Liste aus.',

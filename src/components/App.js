@@ -15,11 +15,9 @@ function App() {
 
       <Button variant="outline-dark" onClick={toggleDarkMode}>Toggle Dark Mode</Button>
 
-
     </div>
 
   );
 }
-
 export default App;
 
