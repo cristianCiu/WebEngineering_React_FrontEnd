@@ -15,6 +15,7 @@ This is the Frontend for the WebEngineering group project at the FH Campus Wien.
 - **[plotly](https://plotly.com/javascript/react)** also for advanced charts
 - **[apollo](https://www.npmjs.com/package/@apollo/client)** as a GraphQL client
 - **[bootstrap](https://getbootstrap.com/)** for style elements
+- **[react-router-dom](https://reactrouter.com/)** for React Routing
 
 ## Notes:
 
